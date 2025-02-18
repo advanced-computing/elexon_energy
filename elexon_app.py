@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import requests
+import plotly 
 import plotly.express as px
 
 api_url1 = "https://data.elexon.co.uk/bmrs/api/v1/generation/actual/per-type?from=2024-01-01&to=2024-01-03&settlementPeriodFrom=1&settlementPeriodTo=48&format=json"
@@ -27,6 +28,7 @@ df1 = list(map(flatten_generationdata, generation_data))
 df1 = pd.DataFrame(df1)
 
 st.title("Elexon Energy - UK Electricity Data")
+st.write("Project Team: Arshiya Sawhney and Ijaz Ahmed Khan")
 st.write("Data Summary/ Structure:")
 st.dataframe(df1.head())
 
