@@ -1,5 +1,43 @@
+<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/python,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,windows
+=======
+# Created by https://www.toptal.com/developers/gitignore/api/macos,python
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,python
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
+>>>>>>> 12f38c961dfe00557267994fade7f450c2a559e6
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -125,7 +163,11 @@ celerybeat.pid
 
 # Environments
 .env
+<<<<<<< HEAD
 .venv/
+=======
+.venv
+>>>>>>> 12f38c961dfe00557267994fade7f450c2a559e6
 env/
 venv/
 ENV/
@@ -173,6 +215,7 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+<<<<<<< HEAD
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -200,3 +243,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,windows
+=======
+# End of https://www.toptal.com/developers/gitignore/api/macos,python
+>>>>>>> 12f38c961dfe00557267994fade7f450c2a559e6
