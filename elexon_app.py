@@ -41,5 +41,26 @@ totals.columns = ["Fuel Source", "Total Generation"]
 
 fuel_types = ["Biomass","Fossil Gas","Fossil Hard coal","Fossil Oil","Hydro Pumped Storage","Hydro Run-of-river and poundage","Nuclear","Other","Solar","Wind Offshore","Wind Onshore" ]
 
-fig1 = px.histogram(totals, x="Fuel Source", y="Total Generation", title="Total Generation by Fuel Type")
+fig1 = px.histogram(totals, x="Fuel Source", y="Total Generation", title="Total Generation by Fuel Type (01/01/2024 - 01/03/2024)")
 st.plotly_chart(fig1)
+
+
+temp_api = "https://data.elexon.co.uk/bmrs/api/v1/temperature?from=2024-01-01&to=2024-01-03&format=json"
+temp_data = requests.get(temp_api)
+temp_data = temp_data.json()
+temp_data = temp_data['data']
+
+def flatten_tempdata(original):
+  result = []
+  for element in original:
+    new_elemt = {}
+    new_elemt['Date'] = element['measurementDate']
+    new_elemt['Temperature'] = element['temperature']
+    result.append(new_elemt)
+  return result
+
+df2 = list(flatten_tempdata(temp_data))
+df2 = pd.DataFrame(df2)
+
+fig2 = px.line(df2, x="Date", y="Temperature", title="Daily Average Temperature")
+st.plotly_chart(fig2)
