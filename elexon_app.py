@@ -27,6 +27,9 @@ df1 = list(map(flatten_generationdata, generation_data))
 
 df1 = pd.DataFrame(df1)
 
+st.markdown("# Home Page")
+st.sidebar.markdown("# Home Page")
+
 st.title("Elexon Energy - UK Electricity Data")
 st.write("Project Team: Arshiya Sawhney and Ijaz Ahmed Khan")
 st.write("Data Summary/ Structure:")
@@ -45,22 +48,3 @@ fig1 = px.histogram(totals, x="Fuel Source", y="Total Generation", title="Total 
 st.plotly_chart(fig1)
 
 
-temp_api = "https://data.elexon.co.uk/bmrs/api/v1/temperature?from=2024-01-01&to=2024-01-03&format=json"
-temp_data = requests.get(temp_api)
-temp_data = temp_data.json()
-temp_data = temp_data['data']
-
-def flatten_tempdata(original):
-  result = []
-  for element in original:
-    new_elemt = {}
-    new_elemt['Date'] = element['measurementDate']
-    new_elemt['Temperature'] = element['temperature']
-    result.append(new_elemt)
-  return result
-
-df2 = list(flatten_tempdata(temp_data))
-df2 = pd.DataFrame(df2)
-
-fig2 = px.line(df2, x="Date", y="Temperature", title="Daily Average Temperature")
-st.plotly_chart(fig2)
