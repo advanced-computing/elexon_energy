@@ -14,12 +14,6 @@ def setup_test_data():
 
 sample_data = setup_test_data()
 
-#sample_row = {
-        #"startTime": "2024.01.01",
-       # "settlementPeriod": 1,
-        #"data": [{"psrType": "Solar", "quantity": 100}]
-#}
-
 def test_flatten_generationdata_datetime_format():
     sample_output = list(map(flatten_generationdata, sample_data))
     sample_row = sample_output[0]
@@ -45,6 +39,7 @@ def test_flatten_generationdata_quantity_is_numeric():
     for dict in sample_output:
         for key, value in dict.items():
             if key not in ["StartTime", "SettlementPeriod"]:
-                value = float(value)
-                if type(value)!=float:
-                    assert False
+                try:
+                    value = float(value)
+                except:
+                   assert False
