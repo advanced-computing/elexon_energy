@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import requests
-import plotly 
 import plotly.express as px
 
 api_url1 = "https://data.elexon.co.uk/bmrs/api/v1/generation/actual/per-type?from=2024-01-01&to=2024-01-03&settlementPeriodFrom=1&settlementPeriodTo=48&format=json"
