@@ -1,5 +1,3 @@
-import requests
-import pandas as pd
 
 from page2 import flatten_tempdata
 
