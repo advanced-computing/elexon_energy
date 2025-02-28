@@ -1,5 +1,3 @@
-import pandas as pd
-import pytest
 import json
 from datetime import datetime 
 from elexon_app import flatten_generationdata
@@ -41,5 +39,5 @@ def test_flatten_generationdata_quantity_is_numeric():
             if key not in ["StartTime", "SettlementPeriod"]:
                 try:
                     value = float(value)
-                except:
+                except AssertionError:
                    assert False
