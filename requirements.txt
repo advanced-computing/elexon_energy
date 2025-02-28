@@ -6,4 +6,5 @@ plotly.express
 streamlit
 requests
 pytest
+pytest-cov
 ipykernel
