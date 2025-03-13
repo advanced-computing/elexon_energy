@@ -5,7 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
-import temperature_data
+#from pages import temperature_data
+from temperature_data import fetch_temperature_data, flatten_tempdata
 
 
 # ## Temp data
@@ -15,8 +16,8 @@ import temperature_data
 # temp_data = temp_data['data'
 
 temp_api = "https://data.elexon.co.uk/bmrs/api/v1/temperature?from=2024-01-01&to=2024-12-31&format=json"
-temp_data = temperature_data.fetch_temperature_data(temp_api)
-flattened_data = temperature_data.flatten_tempdata(temp_data)
+temp_data = fetch_temperature_data(temp_api)
+flattened_data = flatten_tempdata(temp_data)
 
 df2 = pd.DataFrame(flattened_data)
 
