@@ -1,5 +1,5 @@
 
-from page2 import flatten_tempdata
+from temperature_data import flatten_tempdata
 
 def create_test_data():
     # Mock data similar to what the API would return
