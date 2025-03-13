@@ -1,6 +1,6 @@
 import json
 from datetime import datetime 
-from elexon_app import flatten_generationdata
+from elexon_app import flatten_generation_data
 
 
 
@@ -12,8 +12,8 @@ def setup_test_data():
 
 sample_data = setup_test_data()
 
-def test_flatten_generationdata_datetime_format():
-    sample_output = list(map(flatten_generationdata, sample_data))
+def test_flatten_generation_data_datetime_format():
+    sample_output = list(map(flatten_generation_data, sample_data))
     sample_row = sample_output[0]
     try:
         datetime.strptime(sample_row["StartTime"], "%Y-%m-%dT%H:%M:%SZ")
@@ -22,8 +22,8 @@ def test_flatten_generationdata_datetime_format():
         print("The StartTime is not in a correct format")
     
 
-def test_flatten_generationdata_fuel_type():
-    sample_output = list(map(flatten_generationdata, sample_data))
+def test_flatten_generation_data_fuel_type():
+    sample_output = list(map(flatten_generation_data, sample_data))
     fuel_types = ["Biomass","Fossil Gas","Fossil Hard coal","Fossil Oil","Hydro Pumped Storage","Hydro Run-of-river and poundage","Nuclear","Other","Solar","Wind Offshore","Wind Onshore" ]
     for dict in sample_output:
        for key in dict.keys():
@@ -32,8 +32,8 @@ def test_flatten_generationdata_fuel_type():
                assert False
             
 
-def test_flatten_generationdata_quantity_is_numeric():
-    sample_output = list(map(flatten_generationdata, sample_data))
+def test_flatten_generation_data_quantity_is_numeric():
+    sample_output = list(map(flatten_generation_data, sample_data))
     for dict in sample_output:
         for key, value in dict.items():
             if key not in ["StartTime", "SettlementPeriod"]:
