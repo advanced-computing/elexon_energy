@@ -1,13 +1,11 @@
-import matplotlib
 import requests
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+#import plotly.express as px
 import matplotlib.pyplot as plt
-matplotlib.use('TkAgg')
-# import sys
-# sys.path.append('elexon_energy/pages')
-import page2
+import matplotlib
+matplotlib.use('Agg')
+import temperature_data
 
 
 # ## Temp data
@@ -17,8 +15,8 @@ import page2
 # temp_data = temp_data['data'
 
 temp_api = "https://data.elexon.co.uk/bmrs/api/v1/temperature?from=2024-01-01&to=2024-12-31&format=json"
-temp_data = page2.fetch_temperature_data(temp_api)
-flattened_data = page2.flatten_tempdata(temp_data)
+temp_data = temperature_data.fetch_temperature_data(temp_api)
+flattened_data = temperature_data.flatten_tempdata(temp_data)
 
 df2 = pd.DataFrame(flattened_data)
 
@@ -50,6 +48,7 @@ merged_data = pd.merge(df2, demand_df, on='Date')
 
 print(df2.head())
 print(demand_df.head())
+print(merged_data.head())
 
 
 
@@ -74,5 +73,16 @@ ax2.tick_params(axis='y', labelcolor='orange')
 plt.title('Temperature and Demand Over Time')
 fig.tight_layout()
 
-plt.show()
+# Show the plot outside of Streamlit
+#plt.show()
+
+# Show the plot in Streamlit
 st.pyplot(fig)
+
+
+
+
+## weather data
+
+# weather_api"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/united%20kingdom/2024-01-01/2024-12-31?unitGroup=us&key=YSMAWYWAAQUCN4STA4XFW68XA&contentType=json"
+# weather_data = temperature_data.fetch_temperature_data(weather_api)
