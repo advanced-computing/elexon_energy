@@ -6,14 +6,23 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
 #from pages import temperature_data
-from temperature_data import fetch_temperature_data, flatten_tempdata
+#from temperature_data import fetch_temperature_data, flatten_tempdata
 
 
-# ## Temp data
-# temp_api = "https://data.elexon.co.uk/bmrs/api/v1/temperature?from=2024-01-01&to=2024-03-01&format=json"
-# temp_data = requests.get(temp_api)
-# temp_data = temp_data.json()
-# temp_data = temp_data['data'
+
+def fetch_temperature_data(api_url):
+    response = requests.get(api_url)
+    data = response.json()
+    return data['data']
+
+def flatten_tempdata(original):
+  result = []
+  for element in original:
+    new_elemt = {}
+    new_elemt['Date'] = element['measurementDate']
+    new_elemt['Temperature'] = element['temperature']
+    result.append(new_elemt)
+  return result
 
 temp_api = "https://data.elexon.co.uk/bmrs/api/v1/temperature?from=2024-01-01&to=2024-12-31&format=json"
 temp_data = fetch_temperature_data(temp_api)
