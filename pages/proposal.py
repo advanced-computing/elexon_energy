@@ -13,9 +13,11 @@ The 2 key datasets of interest from the platform are:
 
 **What are your research question(s)?**  
 1) What is the relationship between temperature and the source of energy generation? Trying to identify seasonality in generation data.  
-2) To what extent is the forecasting model accurate? Exploring the forecast v. actual generation differentials per day.
+2) We wish to create a forecasting model and test it with elexon's forecasts by training our model on historic data. We will try to use 
+    the weather dataset and temperature as important features for our forecasting model. The aim is to find what features determine demand
+    for energy.
 
-**What's the link to your notebook?**    
+**What's the link to your notebook?**    (we have moved everything to github)
     https://colab.research.google.com/drive/1T0LqML7dyQBx_vw7vp-7Ju5X5_FJ6Qaj?usp=sharing
 
 **What's your target visualization?**  
@@ -31,7 +33,17 @@ The 2 key datasets of interest from the platform are:
     While it is a relatively clean dataset, we may run into issues interpreting and understanding technical terms related to the energy sector which we are not familiar with (such as outturn generation)
     Handling a large dataset (which is updated every 30 min or so) might be a challenge as it may require heavy processing power and very frequent changes may make our analysis confusing 
     Upcoming policy changes in UK’s energy sector or extreme events could affect/ disrupt the pattern of energy generation
-    
+
+    As we plan to create a forecasting model, identifying relevant features for e.g., weather data, holidays, or special events) and transforming raw data into meaningful inputs can be complex and time-consuming.
+    There are various machine learning models to choose from, such as linear regression, decision trees, random forests. Each comes with its own advantages and limitations.
+    and selecting the most suitable one requires experimentation.
+
+** New Insights **   
+    We observed an interesting relationship between temperature and demand for electricity and also the trend for electricity demand. Our visuals show that when temperature is low the demand for electricity 
+    is higher which means that during the winter the demand for electricity is high but on the other hand, demand for electricity is lower when its summer. We plan to explore whether the source of electricity changes 
+    significantly between these two seasons. It would be valuable to analyze which energy sources are more heavily utilized in winter versus summer. Additionally, given the availability of extensive historical data, 
+    this could provide a strong foundation for developing a forecasting model for electricity demand in the UK. We also plan to compare our model's forecasts with those provided by Elexon on its website.
+
 '''
 
 st.markdown(proposal_text)
