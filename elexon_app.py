@@ -7,11 +7,12 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import pandas_gbq
 
-creds = st.secrets["gcp_service_account"]
-credentials = service_account.Credentials.from_service_account_info(creds)
 
 @st.cache_data
 def load_data():
+    creds = st.secrets["gcp_service_account"]
+    credentials = service_account.Credentials.from_service_account_info(creds)
+
     sql = """
         SELECT *
         FROM `sipa-adv-c-arshiya-ijaz.elexon_energy.generation_data`
