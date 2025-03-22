@@ -3,6 +3,22 @@ import pandas as pd
 import requests
 import plotly.express as px
 import datetime
+from google.cloud import bigquery
+from google.oauth2 import service_account
+import pandas_gbq
+
+creds = st.secrets["gcp_service_account"]
+credentials = service_account.Credentials.from_service_account_info(creds)
+
+@st.cache_data
+def load_data():
+    sql = """
+        SELECT *
+        FROM `sipa-adv-c-arshiya-ijaz.elexon_energy.generation_data`
+        ORDER BY StartTime DESC
+        LIMIT 100
+    """
+    return pandas_gbq.read_gbq(sql, credentials=credentials)
 
 def get_generation_data(api_url):
   api_response = requests.get(api_url)
@@ -100,11 +116,12 @@ def main():
         st.error("Error: End date must be after start date.")
         return
     
-    api_url = f"https://data.elexon.co.uk/bmrs/api/v1/generation/actual/per-type?from={start_date}&to={end_date}&settlementPeriodFrom=1&settlementPeriodTo=48&format=json"
+    #api_url = f"https://data.elexon.co.uk/bmrs/api/v1/generation/actual/per-type?from={start_date}&to={end_date}&settlementPeriodFrom=1&settlementPeriodTo=48&format=json"
+    #generation_data = get_generation_data(api_url)
+    #df = process_data(generation_data)
     
-    generation_data = get_generation_data(api_url)
-          
-    df = process_data(generation_data)
+    df = load_data()
+
     df, totals = calculate_totals(df)
 
     plot_generation_bar_chart(totals, start_date, end_date)
