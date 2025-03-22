@@ -3,7 +3,6 @@ import pandas as pd
 import requests
 import plotly.express as px
 import datetime
-from google.cloud import bigquery
 from google.oauth2 import service_account
 import pandas_gbq
 
