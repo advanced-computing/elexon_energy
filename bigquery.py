@@ -1,10 +1,10 @@
 import pandas as pd
+from pandas_gbq import to_gbq, read_gbq
 import requests
 import pydata_google_auth
 from datetime import datetime
 from google.oauth2 import service_account
 import streamlit as st
-from pathlib import Path
 
 PROJECT_ID = "sipa-adv-c-arshiya-ijaz"
 DATASET = "elexon_energy"
