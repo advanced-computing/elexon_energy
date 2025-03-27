@@ -1,5 +1,4 @@
 import pandas as pd
-from pandas_gbq import to_gbq, read_gbq
 import requests
 import pydata_google_auth
 from datetime import datetime
