@@ -5,20 +5,21 @@ import plotly.express as px
 import datetime
 from google.oauth2 import service_account
 import pandas_gbq
+import bigquery
 
+@st.cache_data(ttl=300)
+def load_data(start_date, end_date):
+    bigquery.main()
+    credentials = bigquery.project_credentials()
 
-@st.cache_data
-def load_data():
-    creds = st.secrets["gcp_service_account"]
-    credentials = service_account.Credentials.from_service_account_info(creds)
-
-    sql = """
+    sql = f"""
         SELECT *
-        FROM `sipa-adv-c-arshiya-ijaz.elexon_energy.generation_data`
-        ORDER BY StartTime DESC
-        LIMIT 100
+        FROM sipa-adv-c-arshiya-ijaz.elexon_energy.generation_data
+        WHERE DATE(StartTime) >= '{start_date}'
+        AND DATE(StartTime) <= '{end_date}'
+        ORDER BY StartTime
     """
-    return pandas_gbq.read_gbq(sql, credentials=credentials)
+    return pandas_gbq.read_gbq(sql, bigquery.PROJECT_ID, credentials=credentials)
 
 def get_generation_data(api_url):
   api_response = requests.get(api_url)
@@ -104,10 +105,18 @@ def main():
     st.title("Elexon Energy - UK Electricity Data")
     st.write("Project Team: Arshiya Sawhney and Ijaz Ahmed Khan")
     
+    # Show last update time in sidebar
+    st.sidebar.header("Data Updates")
+    last_update = bigquery.get_latest_timestamp()  # This returns a string in YYYY-MM-DD format
+    # Convert string to datetime for better display
+    last_update_dt = datetime.datetime.strptime(last_update, '%Y-%m-%d')
+    st.sidebar.write(f"Last data update: {last_update_dt.strftime('%d/%m/%Y')}")
+    
     st.sidebar.header("Select Dates")
     
-    default_start_date = datetime.date(2025, 1, 1)
-    default_end_date = datetime.date(2025, 2, 1)
+    # Set default dates based on available data
+    default_start_date = datetime.date(2024, 1, 1)  # Changed to 2024 since that's more realistic
+    default_end_date = datetime.date.today()
     
     start_date = st.sidebar.date_input("Start Date", default_start_date)
     end_date = st.sidebar.date_input("End Date", default_end_date)
@@ -116,11 +125,7 @@ def main():
         st.error("Error: End date must be after start date.")
         return
     
-    #api_url = f"https://data.elexon.co.uk/bmrs/api/v1/generation/actual/per-type?from={start_date}&to={end_date}&settlementPeriodFrom=1&settlementPeriodTo=48&format=json"
-    #generation_data = get_generation_data(api_url)
-    #df = process_data(generation_data)
-    
-    df = load_data()
+    df = load_data(start_date, end_date)
 
     df, totals = calculate_totals(df)
 
@@ -152,5 +157,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
