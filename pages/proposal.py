@@ -3,6 +3,8 @@ import streamlit as st
 proposal_text = '''
 **Proposal by**: Arshiya Sawhney (as5476) and Ijaz Ahmed Khan (ik2557)  
 
+Streamlit app link: https://advanced-computing-elexon-energy-elexon-app-ie89eg.streamlit.app/temp_data_explore_part_4
+
 **What dataset are you going to use?**  
 We will be using the Elexon BSC’s IRIS Data Portal, which provides real-time, publicly-available data for the Great Britain electricity market.   
 The 2 key datasets of interest from the platform are:   
