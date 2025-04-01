@@ -9,3 +9,4 @@ pytest
 ipykernel
 pytest-cov
 matplotlib
+pandas-gbq
