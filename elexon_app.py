@@ -111,6 +111,14 @@ def main():
     last_update_dt = datetime.datetime.strptime(last_update, '%Y-%m-%d')
     st.sidebar.write(f"Last data update: {last_update_dt.strftime('%d/%m/%Y')}")
     
+
+    # Show last update time in sidebar
+    st.sidebar.header("Data Updates")
+    last_update = bigquery.get_latest_timestamp()  # This returns a string in YYYY-MM-DD format
+    # Convert string to datetime for better display
+    last_update_dt = datetime.datetime.strptime(last_update, '%Y-%m-%d')
+    st.sidebar.write(f"Last data update: {last_update_dt.strftime('%d/%m/%Y')}")
+    
     st.sidebar.header("Select Dates")
     
     # Set default dates based on available data
@@ -124,6 +132,9 @@ def main():
         st.error("Error: End date must be after start date.")
         return
     
+    df = load_data(start_date, end_date)
+
+
     df = load_data(start_date, end_date)
 
     df, totals = calculate_totals(df)
