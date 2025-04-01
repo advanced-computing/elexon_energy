@@ -104,6 +104,7 @@ def main():
     st.title("Elexon Energy - UK Electricity Data")
     st.write("Project Team: Arshiya Sawhney and Ijaz Ahmed Khan")
     
+
     # Show last update time in sidebar
     st.sidebar.header("Data Updates")
     last_update = bigquery.get_latest_timestamp()  # This returns a string in YYYY-MM-DD format
@@ -124,6 +125,7 @@ def main():
         st.error("Error: End date must be after start date.")
         return
     
+
     df = load_data(start_date, end_date)
 
     df, totals = calculate_totals(df)
