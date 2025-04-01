@@ -5,8 +5,10 @@ import plotly.express as px
 import datetime
 import pandas_gbq
 import bigquery
+import time
 
-@st.cache_data(ttl=300)
+start_time = time.perf_counter()
+@st.cache_data(ttl=3600)
 def load_data(start_date, end_date):
     bigquery.main()
     credentials = bigquery.project_credentials()
@@ -52,18 +54,21 @@ def calculate_totals(df):
     totals.columns = ["Fuel Source", "Total Generation"]
     return df, totals
 
+@st.cache_data(ttl=3600)
 def plot_generation_bar_chart(totals, start_date, end_date):
     """Histogram of total generation by fuel type"""
     title = f"Total Generation by Fuel Type ({start_date.strftime('%d/%m/%Y')} - {end_date.strftime('%d/%m/%Y')})"
     fig = px.histogram(totals, x="Fuel Source", y="Total Generation", title=title)
     st.plotly_chart(fig)
 
+@st.cache_data(ttl=3600)
 def plot_generation_pie_chart(totals, start_date, end_date):
     """Pie chart of  generation by fuel type"""
     title = f"Proportion of Generation by Fuel Type ({start_date.strftime('%d/%m/%Y')} - {end_date.strftime('%d/%m/%Y')})"
     fig = px.pie(totals, values="Total Generation", names="Fuel Source", title=title)
     st.plotly_chart(fig)
 
+@st.cache_data(ttl=3600)
 def display_top_fuel_metrics(totals):
     """Streamlit metrics for the top 3 fuel types by generation"""
     sorted_totals = totals.sort_values("Total Generation", ascending=False)
@@ -81,6 +86,7 @@ def display_top_fuel_metrics(totals):
             label=f"{fuel_name}",
             value=formatted_value)
 
+@st.cache_data(ttl=3600)
 def plot_generation_sparkline(df):
     """Data for sparklines by fuel type"""
     df_filtered = df[df['StartTime'] != 'Total'].copy()
@@ -164,6 +170,10 @@ def main():
       
     st.write("Data Summary/ Structure:")
     st.dataframe(df.head())
+
+end_time = time.perf_counter()
+elapsed = end_time - start_time
+st.write(f"Time taken: {elapsed}")
 
 if __name__ == "__main__":
     main()
