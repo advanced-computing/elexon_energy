@@ -2,8 +2,8 @@ import pandas as pd
 from pandas_gbq import to_gbq, read_gbq
 import requests
 import pydata_google_auth
-from google.oauth2 import service_account
-from datetime import datetime, timedelta
+#from google.oauth2 import service_account
+from datetime import datetime
 
 # configuration
 PROJECT_ID = "sipa-adv-c-arshiya-ijaz"
