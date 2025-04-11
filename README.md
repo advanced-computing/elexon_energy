@@ -18,13 +18,13 @@ We believe 'Incremental' data loading is the ideal option for our project becaus
 
 1. Clone the "[elexon_energy](https://github.com/advanced-computing/elexon_energy)" repository using the URL or git clone https://github.com/advanced-computing/elexon_energy.git.
 
-2. Create a virtual environment to manage dependencies using  python -m venv .venv
+2. Create a virtual environment to manage dependencies using  <pre> ``` python -m venv .venv ``` </pre>
 
-3. Activate the environment by running the following command source .venv/bin/activate if you are a Mac user. If you are a Windows user then use .venv\Scripts\activate
+3. Activate the environment by running the following command <pre> ``` source .venv/bin/activate ``` </pre> if you are a Mac user. If you are a Windows user then use <pre> ``` .venv\Scripts\activate ``` </pre>
 
 4. Install the dependencies using the code <pre> ``` pip install -r requirements.txt ``` </pre> (NOTE: Make sure Streamlit in included in requirements.txt)
 
-4. To access the app, run the following in a new terminal/ command line: "streamlit run elexon_app". 
+4. To access the app, run the following in a new terminal/ command line: <pre> ``` "streamlit run elexon_app". ``` </pre>
 
 This will open the app in your browser. The current version of the dashboard includes:
 
