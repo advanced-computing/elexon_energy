@@ -1,0 +1,24 @@
+name: Elexon Update Dataset - Daily
+
+
+on:
+  schedule:
+    # daily
+    - cron: "0 0 * * *"
+  # support manual trigger
+  workflow_dispatch:
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Load energy generation data in bigquery
+        uses: actions/bigquery
+      - name: Load Temperature and demand data in bigquery
+        uses: actions/pages/bigquery_temperature
+        with:
+          python-version: "3.12"
+          cache: pip
+
