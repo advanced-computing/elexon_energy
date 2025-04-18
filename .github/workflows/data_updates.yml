@@ -12,6 +12,8 @@ jobs:
   links:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Install Python
         uses: actions/setup-python@v5
         with:
