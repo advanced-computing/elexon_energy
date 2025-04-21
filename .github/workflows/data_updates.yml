@@ -28,5 +28,5 @@ jobs:
       - name: Load Temperature and demand data in bigquery
         env:
           ELEXON_SECRETS_IJAZ: ${{ secrets.ELEXON_SECRETS_IJAZ }}
-        run: python pages/bigquery_temperature.py
+        run: python bigquery_temperature.py
         
