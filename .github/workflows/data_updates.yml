@@ -26,6 +26,7 @@ jobs:
         #   ELEXON_SECRETS_AS: ${{ secrets.ELEXON_SECRETS_AS }}
         run: python bigquery.py
       - name: Load Temperature and demand data in bigquery
+
         env:
           ELEXON_SECRETS_IJAZ: ${{ secrets.ELEXON_SECRETS_IJAZ }}
         run: python bigquery_temperature.py
