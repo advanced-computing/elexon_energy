@@ -1,21 +1,12 @@
 import pandas as pd
 from pandas_gbq import to_gbq, read_gbq
 import requests
-import pydata_google_auth
-#from google.oauth2 import service_account
+from google.oauth2 import service_account
 from datetime import datetime
+import json
+import os
 
 # configuration
-PROJECT_ID = "sipa-adv-c-arshiya-ijaz"
-DATASET = "elexon_energy"
-TABLE_TEMPERATURE = "temperature"
-TABLE_DEMAND = "demand"
-FULL_TABLE_TEMPERATURE = f"{PROJECT_ID}.{DATASET}.{TABLE_TEMPERATURE}"
-FULL_TABLE_DEMAND = f"{PROJECT_ID}.{DATASET}.{TABLE_DEMAND}"
-SCOPES = [
-    'https://www.googleapis.com/auth/cloud-platform',
-    'https://www.googleapis.com/auth/drive'
-]
 
 PROJECT_ID = "sipa-adv-c-arshiya-ijaz"
 DATASET = "elexon_energy"
@@ -29,12 +20,19 @@ SCOPES = ['https://www.googleapis.com/auth/cloud-platform',
 
 
 
-# Authenticate with user credentials
-credentials = pydata_google_auth.get_user_credentials(
-    SCOPES,
-    auth_local_webserver=True, 
-    credentials_cache=pydata_google_auth.cache.REAUTH
-)
+# === AUTHENTICATION ===
+def get_bq_credentials():
+    bq_credentials = os.environ.get('ELEXON_SECRETS_IJAZ')
+    if not bq_credentials:
+        raise ValueError("Missing environment variable: ELEXON_SECRETS_IJAZ")
+    bq_credentials = json.loads(bq_credentials)
+    credentials = service_account.Credentials.from_service_account_info(
+        bq_credentials, scopes=SCOPES
+    )
+    return credentials
+
+credentials = get_bq_credentials()
+
 
 def check_table_exists(table_name, credentials):
     """Check if a table exists in BigQuery"""
@@ -44,15 +42,12 @@ def check_table_exists(table_name, credentials):
     WHERE table_name = '{table_name}'
     """
     try:
-        df = read_gbq(
-            query, 
-            project_id=PROJECT_ID,
-            credentials=credentials
-        )
+        df = read_gbq(query, project_id=PROJECT_ID, credentials=credentials)
         return not df.empty
     except Exception as e:
         print(f"Error checking table existence: {str(e)}")
         return False
+
 
 def create_table(full_table_name, credentials, is_demand=False):
     """Create a new table with appropriate schema"""
