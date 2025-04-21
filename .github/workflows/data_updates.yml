@@ -29,6 +29,5 @@ jobs:
 
         env:
           ELEXON_SECRETS_IJAZ: ${{ secrets.ELEXON_SECRETS_IJAZ }}
-        run: python pages/bigquery_temperature.py
-
+        run: python bigquery_temperature.py
         
