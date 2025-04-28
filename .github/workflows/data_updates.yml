@@ -1,33 +1,32 @@
 name: Elexon Update Dataset - Daily
 
-
 on:
   schedule:
-    # daily
-    - cron: "0 0 * * *"
-  # support manual trigger
-  workflow_dispatch:
+    - cron: "0 0 * * *"  # Run daily at midnight UTC
+  workflow_dispatch:  # Allow manual trigger
 
 jobs:
-  links:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install Python
+
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Load energy generation data in bigquery
-        # env:
-        #   ELEXON_SECRETS_AS: ${{ secrets.ELEXON_SECRETS_AS }}
-        run: python bigquery.py
-      - name: Load Temperature and demand data in bigquery
 
-        env:
-          ELEXON_SECRETS_IJAZ: ${{ secrets.ELEXON_SECRETS_IJAZ }}
+      - name: Create .streamlit/secrets.toml
+        run: |
+          mkdir -p .streamlit
+          printf "%s" "${{ secrets.ELEXON_SECRETS_AS }}" > .streamlit/secrets.toml
+
+      - name: Load energy generation data into BigQuery
+        run: python bigquery.py
+
+      - name: Load temperature and demand data into BigQuery
         run: python bigquery_temperature.py
-        
