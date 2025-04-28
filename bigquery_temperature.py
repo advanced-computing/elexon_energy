@@ -3,8 +3,9 @@ from pandas_gbq import to_gbq, read_gbq
 import requests
 from google.oauth2 import service_account
 from datetime import datetime
-import json
-import os
+#import json
+#import os
+import streamlit as st
 
 # configuration
 
@@ -22,16 +23,23 @@ SCOPES = ['https://www.googleapis.com/auth/cloud-platform',
 
 # === AUTHENTICATION ===
 def get_bq_credentials():
-    bq_credentials = os.environ.get('ELEXON_SECRETS_IJAZ')
-    if not bq_credentials:
-        raise ValueError("Missing environment variable: ELEXON_SECRETS_IJAZ")
-    bq_credentials = json.loads(bq_credentials)
+    bq_credentials = {
+        "type": st.secrets["gcp_service_account"]["type"],
+        "project_id": st.secrets["gcp_service_account"]["project_id"],
+        "private_key_id": st.secrets["gcp_service_account"]["private_key_id"],
+        "private_key": st.secrets["gcp_service_account"]["private_key"],
+        "client_email": st.secrets["gcp_service_account"]["client_email"],
+        "client_id": st.secrets["gcp_service_account"]["client_id"],
+        "auth_uri": st.secrets["gcp_service_account"]["auth_uri"],
+        "token_uri": st.secrets["gcp_service_account"]["token_uri"],
+        "auth_provider_x509_cert_url": st.secrets["gcp_service_account"]["auth_provider_x509_cert_url"],
+        "client_x509_cert_url": st.secrets["gcp_service_account"]["client_x509_cert_url"],
+        "universe_domain": st.secrets["gcp_service_account"]["universe_domain"]
+    }
     credentials = service_account.Credentials.from_service_account_info(
         bq_credentials, scopes=SCOPES
     )
     return credentials
-
-credentials = get_bq_credentials()
 
 
 def check_table_exists(table_name, credentials):
@@ -235,4 +243,5 @@ def load_incremental_data(credentials):
         print(f"Failed to process demand data: {str(e)}")
 
 if __name__ == "__main__":
+    credentials = get_bq_credentials() 
     load_incremental_data(credentials)
