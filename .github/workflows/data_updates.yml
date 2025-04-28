@@ -24,6 +24,9 @@ jobs:
         run: |
           mkdir -p .streamlit
           printf "%s" "${{ secrets.ELEXON_SECRETS_AS }}" > .streamlit/secrets.toml
+      - name: Debug print secrets.toml
+        run: |
+          cat .streamlit/secrets.toml
 
       - name: Load energy generation data into BigQuery
         run: python bigquery.py
