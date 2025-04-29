@@ -11,13 +11,13 @@ import json
 import time
 
 # Configuration from secrets
-PROJECT_ID = st.secrets["gcp"]["project_id"]
-DATASET = st.secrets["gcp"]["dataset"]
-TEMPERATURE_TABLE = st.secrets["gcp"]["temperature_table"]
-DEMAND_TABLE = st.secrets["gcp"]["demand_table"]
+PROJECT_ID = st.secrets["gcp_service_account"]["project_id"]
+DATASET = st.secrets["gcp_service_account"]["dataset"]
+TEMPERATURE_TABLE = st.secrets["gcp_service_account"]["temperature_table"]
+DEMAND_TABLE = st.secrets["gcp_service_account"]["demand_table"]
 
 # Authenticate
-credentials_info = json.loads(st.secrets["gcp"]["credentials"])
+credentials_info = json.loads(st.secrets["gcp_service_account"]["credentials"])
 credentials = service_account.Credentials.from_service_account_info(
     credentials_info,
     scopes=["https://www.googleapis.com/auth/cloud-platform"],
