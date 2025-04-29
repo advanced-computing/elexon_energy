@@ -16,25 +16,30 @@ TABLE_DEMAND = "demand"
 FULL_TABLE_TEMPERATURE = f"{PROJECT_ID}.{DATASET}.{TABLE_TEMPERATURE}"
 FULL_TABLE_DEMAND = f"{PROJECT_ID}.{DATASET}.{TABLE_DEMAND}"
 SCOPES = ['https://www.googleapis.com/auth/cloud-platform',
-          'https://www.googleapis.com/auth/drive'
+        'https://www.googleapis.com/auth/drive'
 ]
 
 
 
 # === AUTHENTICATION ===
 def get_bq_credentials():
-    """Get BigQuery Credentials either from environment variable or streamlit secrets."""
-    # Try from Environment (GitHub Actions / Streamlit Cloud)
+    """Get BigQuery Credentials from environment or local JSON."""
     bq_credentials_env = os.environ.get('ELEXON_SECRETS_AS')
     if bq_credentials_env:
+        # From environment (GitHub Actions)
         bq_credentials = json.loads(bq_credentials_env)
     else:
-        # Fallback: Try from streamlit secrets (for local testing)
+    # Fallback options
         try:
-            bq_credentials = st.secrets["gcp_service_account"]
+            import streamlit as st
+            bq_credentials = st.secrets["gcp_service_account"]  # Streamlit Cloud
         except Exception:
-            raise Exception("Credentials not found in environment variables or Streamlit secrets.")
-    
+            try:
+                with open("your_key.json") as f:  # Local key file
+                    bq_credentials = json.load(f)
+            except Exception:
+                raise Exception("No credentials found! Either set ELEXON_SECRETS_AS env variable or add a key file or streamlit secrets.")
+
     credentials = service_account.Credentials.from_service_account_info(
         bq_credentials, scopes=SCOPES
     )

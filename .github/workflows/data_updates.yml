@@ -20,11 +20,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Set environment variable for credentials
-        run: echo "ELEXON_SECRETS_AS=${{ secrets.ELEXON_SECRETS_AS }}" >> $GITHUB_ENV
-
       - name: Load energy generation data into BigQuery
+        #env:
+        #  ELEXON_SECRETS_AS: ${{ secrets.ELEXON_SECRETS_AS }}
         run: python bigquery.py
 
       - name: Load temperature and demand data into BigQuery
+        env:
+          ELEXON_SECRETS_AS: ${{ secrets.ELEXON_SECRETS_AS }}
         run: python bigquery_temperature.py
