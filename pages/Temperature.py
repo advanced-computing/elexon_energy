@@ -10,6 +10,8 @@ from google.oauth2 import service_account
 import json
 import time
 
+st.set_page_config(page_title="Temperature-Demand prediction", layout="wide")
+
 # Configuration from secrets
 PROJECT_ID = st.secrets["gcp_service_account"]["project_id"]
 DATASET = "elexon_energy"
@@ -78,7 +80,7 @@ def main():
     page_start = time.time()
 
     st.title("Temperature and Demand Over Time (BigQuery)")
-    st.set_page_config(page_title="Temperature-Demand prediction", layout="wide")
+    
     # Pagination input
     offset = st.number_input("Offset", min_value=0, step=1000)
     limit = st.number_input("Limit", min_value=100, step=100, value=1000)
