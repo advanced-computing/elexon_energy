@@ -12,12 +12,12 @@ import time
 
 # Configuration from secrets
 PROJECT_ID = st.secrets["gcp_service_account"]["project_id"]
-DATASET = st.secrets["gcp_service_account"]["dataset"]
-TEMPERATURE_TABLE = st.secrets["gcp_service_account"]["temperature_table"]
-DEMAND_TABLE = st.secrets["gcp_service_account"]["demand_table"]
+DATASET = "elexon_energy"
+TEMPERATURE_TABLE = "temperature"
+DEMAND_TABLE = "demand"
 
 # Authenticate
-credentials_info = json.loads(st.secrets["gcp_service_account"]["credentials"])
+credentials_info = st.secrets["gcp_service_account"]
 credentials = service_account.Credentials.from_service_account_info(
     credentials_info,
     scopes=["https://www.googleapis.com/auth/cloud-platform"],
@@ -78,7 +78,7 @@ def main():
     page_start = time.time()
 
     st.title("Temperature and Demand Over Time (BigQuery)")
-    
+    st.set_page_config(page_title="Temperature-Demand prediction", layout="wide")
     # Pagination input
     offset = st.number_input("Offset", min_value=0, step=1000)
     limit = st.number_input("Limit", min_value=100, step=100, value=1000)
@@ -86,7 +86,7 @@ def main():
     # Date range input
     date_range = st.date_input("Filter by Date Range (optional)", [])
     start_date, end_date = None, None
-    if len(date_range) == 2:
+    if date_range and len(date_range) == 2:
         start_date = date_range[0].isoformat()
         end_date = date_range[1].isoformat()
     
