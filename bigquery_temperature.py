@@ -3,8 +3,8 @@ from pandas_gbq import to_gbq, read_gbq
 import requests
 from google.oauth2 import service_account
 from datetime import datetime
-#import json
-#import os
+import json
+import os
 import streamlit as st
 
 # configuration
@@ -23,8 +23,18 @@ SCOPES = ['https://www.googleapis.com/auth/cloud-platform',
 
 # === AUTHENTICATION ===
 def get_bq_credentials():
-    import json
-    bq_credentials = json.loads(st.secrets["ELEXON_SECRETS_AS"])
+    """Get BigQuery Credentials either from environment variable or streamlit secrets."""
+    # Try from Environment (GitHub Actions / Streamlit Cloud)
+    bq_credentials_env = os.environ.get('ELEXON_SECRETS_AS')
+    if bq_credentials_env:
+        bq_credentials = json.loads(bq_credentials_env)
+    else:
+        # Fallback: Try from streamlit secrets (for local testing)
+        try:
+            bq_credentials = st.secrets["gcp_service_account"]
+        except Exception:
+            raise Exception("Credentials not found in environment variables or Streamlit secrets.")
+    
     credentials = service_account.Credentials.from_service_account_info(
         bq_credentials, scopes=SCOPES
     )

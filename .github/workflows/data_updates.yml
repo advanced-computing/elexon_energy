@@ -2,7 +2,7 @@ name: Elexon Update Dataset - Daily
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Run daily at midnight UTC
+    - cron: "0 0 * * *"  # Every midnight UTC
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -20,13 +20,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Create .streamlit/secrets.toml
-        run: |
-          mkdir -p .streamlit
-          printf "%s" "${{ secrets.ELEXON_SECRETS_AS }}" > .streamlit/secrets.toml
-      - name: Debug print secrets.toml
-        run: |
-          cat .streamlit/secrets.toml
+      - name: Set environment variable for credentials
+        run: echo "ELEXON_SECRETS_AS=${{ secrets.ELEXON_SECRETS_AS }}" >> $GITHUB_ENV
 
       - name: Load energy generation data into BigQuery
         run: python bigquery.py
