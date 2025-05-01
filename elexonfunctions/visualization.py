@@ -21,7 +21,7 @@ def plot_generation_sparkline(df):
     """Data for sparklines by fuel type"""
     df_filtered = df[df['StartTime'] != 'Total'].copy()
     
-    df_filtered['StartTime'] = pd.to_datetime(df_filtered['StartTime'])
+    df_filtered['StartTime'] = pd.to_datetime(df_filtered['StartTime'], format='ISO8601')
     
     fuel_types = [col for col in df_filtered.columns if col not in ['StartTime', 'SettlementPeriod']]
     

@@ -52,11 +52,11 @@ def get_generation_data(from_date, to_date):
 def flatten_generation_data(original):
     result = {
         'StartTime': original['startTime'],
-        'SettlementPeriod': original['settlementPeriod'],
+        'SettlementPeriod': int(original['settlementPeriod']),
     }
     for element in original['data']:
         psr_type = element['psrType']
-        result[psr_type] = element['quantity']
+        result[psr_type] = int(round(float(element['quantity'])))
     return result
 
 def process_data(generation_data):
@@ -84,6 +84,12 @@ def main():
         raw_data = get_generation_data(latest_date_str, current_date_str)
         if raw_data:
             df = process_data(raw_data)
+            df.to_parquet("test.parquet")
+            df['StartTime'] = pd.to_datetime(df['StartTime'], errors='coerce', utc=True)
+            df['StartTime'] = df['StartTime'].dt.tz_localize(None)
+            df['SettlementPeriod'] = df['SettlementPeriod'].astype('Int64')
+
+            print(df.dtypes)
             upload_to_gbq(df)
 
 if __name__ == "__main__":
