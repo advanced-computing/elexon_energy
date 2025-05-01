@@ -7,7 +7,6 @@ from pandas_gbq import read_gbq
 from google.oauth2 import service_account
 #from datetime import datetime
 #from google.cloud import bigquery
-import json
 import time
 
 st.set_page_config(page_title="Temperature-Demand prediction", layout="wide")
