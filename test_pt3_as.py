@@ -1,6 +1,6 @@
 import json
 from datetime import datetime 
-from elexon_functions.data_processing import flatten_generation_data
+from elexonfunctions.data_processing import flatten_generation_data
 
 
 
