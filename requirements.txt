@@ -10,3 +10,5 @@ ipykernel
 pytest-cov
 matplotlib
 pandas-gbq
+seaborn
+scikit-learn
