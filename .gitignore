@@ -209,4 +209,6 @@ pyrightconfig.json
 *.json
 .streamlit/secrets.toml
 
+merged_demand_weather_temp.csv
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,python
