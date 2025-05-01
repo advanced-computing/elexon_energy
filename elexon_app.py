@@ -1,9 +1,9 @@
 import streamlit as st
 import datetime
 import bigquery
-from utils.data_processing import load_data, calculate_totals
-from utils.visualization import plot_generation_bar_chart, plot_generation_pie_chart, plot_generation_sparkline
-from utils.metrics import display_top_fuel_metrics
+from elexon_functions.data_processing import load_data, calculate_totals
+from elexon_functions.visualization import plot_generation_bar_chart, plot_generation_pie_chart, plot_generation_sparkline
+from elexon_functions.metrics import display_top_fuel_metrics
 
 
 def main():
