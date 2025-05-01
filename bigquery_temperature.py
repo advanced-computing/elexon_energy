@@ -5,7 +5,6 @@ from google.oauth2 import service_account
 from datetime import datetime
 import json
 import os
-import streamlit as st
 
 # configuration
 
